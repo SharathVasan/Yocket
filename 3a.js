@@ -1,3 +1,5 @@
+//API to list down events: Frontend developer should send schema name as yocket 
+
 const pg = require('pg')
 const pool = new pg.Pool({
    user: process.env.user,
@@ -48,3 +50,6 @@ exports.handler = async (event, context, callback) => {
       context.succeed('Database ' + err);
     }
 };
+
+
+//The response would list down all the events along with related data. This lambda should be connected with an API through AWS API Gateways.
