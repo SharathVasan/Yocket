@@ -13,7 +13,7 @@ port: process.env.port,
 async function query (event) {
   const client = await pool.connect(); 
   let res, statement;
-    statement =`Select * from ${schema}.event`;
+    statement =`Select * from ${schema}.events`;
   try {
     try {
       res = await client.query(statement);
