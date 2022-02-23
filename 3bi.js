@@ -14,13 +14,13 @@ async function query (event) {
   const client = await pool.connect(); 
   let res, statement; 
   let obj = {};
-  obj.sData = {};
+  obj.eventData = {};
   const client = await pool.connect();
   
   try {
     try {
       res = await client.query(statement = `SELECT * from ${schema}.events`;);
-       obj.sData = res.rows;
+       obj.eventData = res.rows;
     } catch (err) {
       throw err;
     }
@@ -42,10 +42,10 @@ exports.handler = async (event, context, callback) => {
     try {
       const rows = await query(event);
       
-      for (let l=0;l<rows.sData.length;l++) {
-        let sd = rows.sData[l].event_end_time;
+      for (let l=0;l<rows.eventData.length;l++) {
+        let sd = rows.eventData[l].event_end_time;
         if (sd > cd) {
-           upcoming.push(rows.sData[l]);
+           upcoming.push(rows.eventData[l]);
           }
        } 
         response.upcoming = upcoming;
@@ -59,3 +59,5 @@ exports.handler = async (event, context, callback) => {
       context.succeed('Database ' + err);
     }
 };
+
+
