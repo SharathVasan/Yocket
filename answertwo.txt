@@ -1,0 +1,15 @@
+Scenario:
+Consider a scenario where you are a big spiderman fan and the latest spiderman movie has been released. You absolutely want to avoid spoilers on youtube, 
+yet also browse through daily video content. You decide to make a basic script that blocks all spoiler videos. 
+What should be the logic/solution to implement in this scenario? 
+You can explain the answer in a textual format in points.
+
+Solution and thoughts:
+1. Keywords in the key here. I would write my script in such a way that it would hide all the content including videos, comments and channels
+  that would match the keyword. Unforturnately I don't know how to implement this, I don't know even if it's possible unless you work on the serverside.
+  
+2. Youtube has an option in it's community settings to block the comments with the keywords which you wish for. You can enter unlimited keywords considering all 
+  the content that would relate to the spoiler.
+  
+3. Apart from these there are multiple chrome extensions and third party tools which will block the spoiler videos and give you spoiler free browsing experience.
+
