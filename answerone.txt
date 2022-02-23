@@ -1,1 +1,57 @@
+Scenario:
+Consider a scenario where you have a Phone number-based login system where you send OTP to the phone number using a third-party SMS service and login the user.
+The third-party service charges 0.02 $ for each SMS and you have allotted 100$ as the balance for the same. 
+You discover that every hour 100$ is depleted and you have to keep recharging the balance despite not having huge traffic on your website/app. 
+Is there something wrong going on here? If yes, How will you fix it? You can explain the answer in a textual format in points. 
+
+
+Solution and thoughts:
+Everytime we integrate a third party SMS service provider, there are certain credentails which will be given by the SMS service provider. For example, if we are using firebase for the phone authentication login system then the authentication credentials would be like this.
+
+<script>
+var fibreBaseconfig = {
+    apiKey: "AIzaSyBmD4v0PtxxZEeTNhHRaa4aAHeCdcxX0us",
+    authDomain: "phoneauthenticationreact.firebaseapp.com",
+    databaseURL: "https://phoneauthenticationreact.firebaseio.com",
+    projectId: "phoneauthenticationreact",
+    storageBucket: "phoneauthenticationreact.appspot.com",
+    messagingSenderId: "511189683965",
+    appId: "1:511189683965:web:ad29efffb76afdd6627894"
+}
+</script>
+
+They are lot of things which I have to pre-assume inorder to debug this scenario. The assumptions are as follows:
+1. Third party project setup is perfect and there is no issues in that. We have used the same authentication credentials in our web app which is provided by them.
+2. The total account balance is also depleting which indicates that the sms is being triggered and there is nothing wrong with the service provider.
+3. We have used the same authentication credentails in our deployed app which is provided by third party sms service provider.
+4. The form validation for the phone input field is also done and is working perfectly fine. It shouldn't take the submit button unless the contact number is valid (10 digits) and it should give an alert saying the otp is sent.
+
+With these considerations, there can be a problem in the below cases:
+
+CASE 1. When the user enters phone number and clicks on submit, the user is not being navigated to otp form where the user enters the recieved OTP. So the user clicks on submit multiple times being confused and this may have led to multiple sms triggers.
+
+CASE 2. In this case I am assuming that the user is navigated to OTP screen. After the user enters an OTP, we are not capturing the event from OTP field. Due to this, during the auth validation the system may not allow the user to navigate further perhaps may return an error which says ivalid OTP. Now the user may want to cross check and would request to resend the sms.
+
+CASE 3. Assuming all the above cases are handled and the user flow is smooth, the redirecting url to the website homepage may be wrong. When ever the password is authenticated we should provide the re-directing domain and the redirecting url as shown below.
+
+const uiConfig = {
+      signInSuccessUrl: "https://netflix-clone-ankur.herokuapp.com/", //This URL is used to return to that page when we got success response for phone authentication.
+      signInOptions: [firebase.auth.PhoneAuthProvider.PROVIDER_ID],
+      tosUrl: "https://netflix-clone-ankur.herokuapp.com/"
+    };
+    
+In all the above cases, SMS were being triggered multiple times but the user never made it to the landingscree.
+    
+These are the solutions to fix it and it inlines with the cases. Consider it as the solution to each case.
+
+SOLUTION 1: Make sure that the redirecting url is same as the otp field url and fix it if it is not the same. With this the user can easily navigate to the OTP screen if his phone validation is fine.
+
+SOLUTION 2: Make sure to capture the OTP field so that the otp authentication never fails and the user can make it directly to the landingscreen whithout any huddles. Capture the input event on change and set the value to which it is mached during auth validation.
+
+SOLUTION 3: Make sure the redirecting URL and the domain URL matches the URL to which you want the user to be navigated.
+
+These may be the problems and solutions as per my knowledge. Any other cases which you are expecting is out my knowledge and I would be curious to hear it from you.
+
+
+
 
